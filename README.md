@@ -59,14 +59,14 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   Open another new terminal, edit `ROCKET_PORT` in `.env` to `8003`, then execute `cargo run`.
 
 ## Mandatory Checklists (Subscriber)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
+-   [X] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create SubscriberRequest model struct.`
-    -   [ ] Commit: `Create Notification database and Notification repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Notification repository.`
-    -   [ ] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [X] Commit: `Create Notification model struct.`
+    -   [X] Commit: `Create SubscriberRequest model struct.`
+    -   [X] Commit: `Create Notification database and Notification repository struct skeleton.`
+    -   [X] Commit: `Implement add function in Notification repository.`
+    -   [X] Commit: `Implement list_all_as_string function in Notification repository.`
+    -   [X] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -85,5 +85,9 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+
+1. RwLock<> digunakan untuk menyinkronkan akses ke Vec dari Notification karena kita memerlukan akses bersamaan dari beberapa thread dimana operasi pembacaan lebih sering daripada penulisan. RwLock memungkinkan beberapa pembaca untuk mengakses data secara bersamaan tanpa saling menghalangi, sementara penulis harus menunggu sampai semua pembaca selesai. Ini berbeda dengan Mutex<> yang akan mengunci data untuk pembaca dan penulis, sehingga hanya satu thread yang dapat mengakses data pada satu waktu, yang kurang efisien jika operasi pembacaan lebih dominan.
+
+2. Rust tidak mengizinkan mutasi variabel static secara langsung karena pendekatan keamanan memori yang ketat. Di Java, variabel static dapat diubah melalui fungsi static tetapi hal ini berpotensi menyebabkan kondisi balapan (race condition) karena tidak ada penguncian bawaan. Rust menerapkan sistem kepemilikan dan peminjaman yang ketat dimana mutasi variabel static dianggap tidak aman tanpa mekanisme sinkronisasi seperti RwLock atau Mutex. lazy_static digunakan untuk menginisialisasi data statis secara malas (saat pertama kali diakses) dan mengemas data dalam mekanisme sinkronisasi untuk memastikan akses yang aman dari berbagai thread.
 
 #### Reflection Subscriber-2
